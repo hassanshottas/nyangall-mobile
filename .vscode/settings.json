@@ -1,0 +1,15 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "files.eol": "\n",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "files.exclude": {
+    "node_modules": true,
+    ".expo": false
+  },
+  "search.exclude": {
+    "node_modules": true,
+    ".expo": true
+  }
+}

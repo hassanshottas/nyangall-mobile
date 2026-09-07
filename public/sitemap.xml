@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://nyangall.ma/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://nyangall.ma/search</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
+  <url><loc>https://nyangall.ma/faq</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://nyangall.ma/privacy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://nyangall.ma/terms</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
+
+  <url><loc>https://nyangall.ma/category/autre</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/beaute</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/emploi</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/immobilier</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/informatique</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/jouets</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/livres</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/maison</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/meubles</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/mode</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/sante</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/services</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/sport</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/vehicules</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://nyangall.ma/category/electronique</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+</urlset>
