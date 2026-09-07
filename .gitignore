@@ -34,6 +34,9 @@ yarn-error.*
 .env
 .env*.local
 
+# lockfile excluded: generated on Windows, causes npm ci mismatches on EAS's Linux builders
+package-lock.json
+
 # typescript
 *.tsbuildinfo
 
