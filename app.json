@@ -8,7 +8,8 @@
     "userInterfaceStyle": "light",
     "scheme": "nyangall",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.nyangall.mobile"
     },
     "android": {
       "package": "com.nyangall.mobile",
@@ -28,7 +29,15 @@
     },
     "plugins": [
       "expo-router",
-      "expo-status-bar"
+      "expo-status-bar",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#E63946"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
