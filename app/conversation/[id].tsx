@@ -10,7 +10,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/context/AuthContext';
 import { useI18n } from '@/context/I18nContext';
 import api from '@/services/api';
-import { Colors, Spacing, FontSize, Radius } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
+import { Spacing, FontSize, Radius, ThemeColors } from '@/constants/theme';
 import { ReportModal } from '@/components/ReportModal';
 
 type Message = { id: string; senderId: string; content: string | null; imageUrl: string | null; createdAt: string; isRead: boolean };
@@ -29,6 +30,8 @@ export default function ConversationScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { user } = useAuth();
   const insets = useSafeAreaInsets();
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
   const flatListRef = useRef<FlatList>(null);
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -191,7 +194,7 @@ export default function ConversationScreen() {
   const isMine = (senderId: string) => senderId === user?.id;
 
   const statusLabel: Record<string, string> = { PENDING: '⏳ En attente', ACCEPTED: '✅ Acceptée', REJECTED: '❌ Refusée', COUNTERED: '↩️ Contre-offre' };
-  const statusColor: Record<string, string> = { PENDING: Colors.accent, ACCEPTED: Colors.success, REJECTED: Colors.error, COUNTERED: Colors.secondary };
+  const statusColor: Record<string, string> = { PENDING: colors.accent, ACCEPTED: colors.success, REJECTED: colors.error, COUNTERED: colors.secondary };
 
   type Item = ({ type: 'message' } & Message) | ({ type: 'offer' } & Offer);
   const items: Item[] = [
@@ -207,10 +210,10 @@ export default function ConversationScreen() {
       <Stack.Screen
         options={{
           title: otherName || 'Conversation',
-          headerTintColor: Colors.primary,
+          headerTintColor: colors.primary,
           headerRight: () => (
             <TouchableOpacity style={styles.menuBtn} onPress={() => setShowMenu((v) => !v)}>
-              <Ionicons name="ellipsis-vertical" size={20} color={Colors.primary} />
+              <Ionicons name="ellipsis-vertical" size={20} color={colors.primary} />
             </TouchableOpacity>
           ),
         }}
@@ -220,12 +223,12 @@ export default function ConversationScreen() {
           <TouchableOpacity style={StyleSheet.absoluteFill} onPress={() => setShowMenu(false)} />
           <View style={styles.menu}>
             <TouchableOpacity style={styles.menuItem} onPress={() => { setShowMenu(false); setShowReportModal(true); }}>
-              <Ionicons name="flag-outline" size={18} color={Colors.textPrimary} />
+              <Ionicons name="flag-outline" size={18} color={colors.textPrimary} />
               <Text style={styles.menuItemText}>{t('report')}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.menuItem} onPress={() => { setShowMenu(false); toggleBlock(); }}>
-              <Ionicons name={isBlocked ? 'lock-open-outline' : 'ban-outline'} size={18} color={Colors.error} />
-              <Text style={[styles.menuItemText, { color: Colors.error }]}>{isBlocked ? t('unblockUser') : t('blockUser')}</Text>
+              <Ionicons name={isBlocked ? 'lock-open-outline' : 'ban-outline'} size={18} color={colors.error} />
+              <Text style={[styles.menuItemText, { color: colors.error }]}>{isBlocked ? t('unblockUser') : t('blockUser')}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -233,12 +236,12 @@ export default function ConversationScreen() {
       <ReportModal visible={showReportModal} onClose={() => setShowReportModal(false)} reportedUserId={otherUserId} />
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={90}>
         {loading ? (
-          <View style={styles.center}><ActivityIndicator size="large" color={Colors.primary} /></View>
+          <View style={styles.center}><ActivityIndicator size="large" color={colors.primary} /></View>
         ) : (
           <>
             {conversation && (
               <View style={styles.listingBanner}>
-                <Ionicons name="pricetag-outline" size={14} color={Colors.primary} />
+                <Ionicons name="pricetag-outline" size={14} color={colors.primary} />
                 <Text style={styles.listingBannerText} numberOfLines={1}>{conversation.listing.title}</Text>
               </View>
             )}
@@ -272,7 +275,7 @@ export default function ConversationScreen() {
                 return (
                   <View style={styles.offerCard}>
                     <View style={styles.offerHeader}>
-                      <Ionicons name="cash-outline" size={16} color={Colors.accent} />
+                      <Ionicons name="cash-outline" size={16} color={colors.accent} />
                       <Text style={styles.offerLabel}>{myOffer ? 'Vous avez proposé' : 'Offre reçue'}</Text>
                     </View>
                     <Text style={styles.offerAmount}>{Number(item.amountMad).toLocaleString('fr-MA')} MAD</Text>
@@ -297,7 +300,7 @@ export default function ConversationScreen() {
                 <TextInput
                   style={styles.offerInput}
                   placeholder="Montant en MAD"
-                  placeholderTextColor={Colors.textSecondary}
+                  placeholderTextColor={colors.textSecondary}
                   value={offerAmount}
                   onChangeText={setOfferAmount}
                   keyboardType="numeric"
@@ -306,26 +309,26 @@ export default function ConversationScreen() {
                   <Text style={styles.offerSendBtnText}>Envoyer</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setShowOfferInput(false)}>
-                  <Ionicons name="close" size={24} color={Colors.textSecondary} />
+                  <Ionicons name="close" size={24} color={colors.textSecondary} />
                 </TouchableOpacity>
               </View>
             )}
 
             <View style={[styles.inputRow, { paddingBottom: Math.max(insets.bottom, Spacing.sm) }]}>
               <TouchableOpacity style={styles.offerBtn} onPress={() => setShowOfferInput(!showOfferInput)}>
-                <Ionicons name="cash-outline" size={22} color={Colors.accent} />
+                <Ionicons name="cash-outline" size={22} color={colors.accent} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.offerBtn} onPress={pickAndSendImage} disabled={uploadingImage}>
                 {uploadingImage ? (
-                  <ActivityIndicator size="small" color={Colors.primary} />
+                  <ActivityIndicator size="small" color={colors.primary} />
                 ) : (
-                  <Ionicons name="image-outline" size={22} color={Colors.primary} />
+                  <Ionicons name="image-outline" size={22} color={colors.primary} />
                 )}
               </TouchableOpacity>
               <TextInput
                 style={styles.input}
                 placeholder="Écrire un message..."
-                placeholderTextColor={Colors.textSecondary}
+                placeholderTextColor={colors.textSecondary}
                 value={text}
                 onChangeText={setText}
                 multiline
@@ -341,46 +344,46 @@ export default function ConversationScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background },
+const getStyles = (colors: ThemeColors) => StyleSheet.create({
+  container: { flex: 1, backgroundColor: colors.background },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   menuBtn: { padding: Spacing.xs, marginRight: Spacing.xs },
   menuOverlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 100 },
-  menu: { position: 'absolute', top: 4, right: Spacing.md, backgroundColor: Colors.surface, borderRadius: Radius.md, borderWidth: 1, borderColor: Colors.border, paddingVertical: Spacing.xs, minWidth: 180, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 8, elevation: 4 },
+  menu: { position: 'absolute', top: 4, right: Spacing.md, backgroundColor: colors.surface, borderRadius: Radius.md, borderWidth: 1, borderColor: colors.border, paddingVertical: Spacing.xs, minWidth: 180, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.1, shadowRadius: 8, elevation: 4 },
   menuItem: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, paddingHorizontal: Spacing.md, paddingVertical: Spacing.sm },
-  menuItemText: { fontSize: FontSize.sm, color: Colors.textPrimary, fontWeight: '600' },
-  listingBanner: { flexDirection: 'row', alignItems: 'center', gap: Spacing.xs, padding: Spacing.sm, paddingHorizontal: Spacing.md, backgroundColor: Colors.primary + '10', borderBottomWidth: 1, borderBottomColor: Colors.primary + '30' },
-  listingBannerText: { flex: 1, fontSize: FontSize.sm, color: Colors.primary, fontWeight: '600' },
+  menuItemText: { fontSize: FontSize.sm, color: colors.textPrimary, fontWeight: '600' },
+  listingBanner: { flexDirection: 'row', alignItems: 'center', gap: Spacing.xs, padding: Spacing.sm, paddingHorizontal: Spacing.md, backgroundColor: colors.primary + '10', borderBottomWidth: 1, borderBottomColor: colors.primary + '30' },
+  listingBannerText: { flex: 1, fontSize: FontSize.sm, color: colors.primary, fontWeight: '600' },
   messages: { padding: Spacing.md, gap: Spacing.sm },
   bubble: { maxWidth: '75%', borderRadius: Radius.lg, padding: Spacing.sm },
   bubbleImageWrap: { padding: 4 },
   bubbleImage: { width: 200, height: 200, borderRadius: Radius.md, marginBottom: 4 },
   bubbleTextWithImage: { paddingHorizontal: Spacing.xs },
-  bubbleMine: { alignSelf: 'flex-end', backgroundColor: Colors.primary, borderBottomRightRadius: 4 },
-  bubbleOther: { alignSelf: 'flex-start', backgroundColor: Colors.surface, borderBottomLeftRadius: 4, borderWidth: 1, borderColor: Colors.border },
+  bubbleMine: { alignSelf: 'flex-end', backgroundColor: colors.primary, borderBottomRightRadius: 4 },
+  bubbleOther: { alignSelf: 'flex-start', backgroundColor: colors.surface, borderBottomLeftRadius: 4, borderWidth: 1, borderColor: colors.border },
   bubbleText: { fontSize: FontSize.md, lineHeight: 22 },
   bubbleTextMine: { color: '#fff' },
-  bubbleTextOther: { color: Colors.textPrimary },
+  bubbleTextOther: { color: colors.textPrimary },
   bubbleTime: { fontSize: 10, marginTop: 4, textAlign: 'right' },
   bubbleTimeMine: { color: 'rgba(255,255,255,0.7)' },
-  bubbleTimeOther: { color: Colors.textSecondary },
-  offerCard: { alignSelf: 'center', width: '80%', backgroundColor: Colors.surface, borderRadius: Radius.lg, padding: Spacing.md, borderWidth: 1, borderColor: Colors.accent + '40', gap: Spacing.xs },
+  bubbleTimeOther: { color: colors.textSecondary },
+  offerCard: { alignSelf: 'center', width: '80%', backgroundColor: colors.surface, borderRadius: Radius.lg, padding: Spacing.md, borderWidth: 1, borderColor: colors.accent + '40', gap: Spacing.xs },
   offerHeader: { flexDirection: 'row', alignItems: 'center', gap: Spacing.xs },
-  offerLabel: { fontSize: FontSize.sm, color: Colors.textSecondary, fontWeight: '600' },
-  offerAmount: { fontSize: FontSize.xl, fontWeight: '800', color: Colors.textPrimary },
+  offerLabel: { fontSize: FontSize.sm, color: colors.textSecondary, fontWeight: '600' },
+  offerAmount: { fontSize: FontSize.xl, fontWeight: '800', color: colors.textPrimary },
   offerStatus: { fontSize: FontSize.sm, fontWeight: '700' },
   offerActions: { flexDirection: 'row', gap: Spacing.sm, marginTop: Spacing.xs },
-  acceptBtn: { flex: 1, backgroundColor: Colors.success, borderRadius: Radius.md, padding: Spacing.sm, alignItems: 'center' },
+  acceptBtn: { flex: 1, backgroundColor: colors.success, borderRadius: Radius.md, padding: Spacing.sm, alignItems: 'center' },
   acceptBtnText: { color: '#fff', fontWeight: '700', fontSize: FontSize.sm },
-  rejectBtn: { flex: 1, borderWidth: 1.5, borderColor: Colors.error, borderRadius: Radius.md, padding: Spacing.sm, alignItems: 'center' },
-  rejectBtnText: { color: Colors.error, fontWeight: '700', fontSize: FontSize.sm },
-  offerInputRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, padding: Spacing.sm, backgroundColor: Colors.surface, borderTopWidth: 1, borderTopColor: Colors.border },
-  offerInput: { flex: 1, borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md, padding: Spacing.sm, fontSize: FontSize.md, color: Colors.textPrimary },
-  offerSendBtn: { backgroundColor: Colors.accent, borderRadius: Radius.md, paddingHorizontal: Spacing.md, paddingVertical: Spacing.sm },
+  rejectBtn: { flex: 1, borderWidth: 1.5, borderColor: colors.error, borderRadius: Radius.md, padding: Spacing.sm, alignItems: 'center' },
+  rejectBtnText: { color: colors.error, fontWeight: '700', fontSize: FontSize.sm },
+  offerInputRow: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, padding: Spacing.sm, backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border },
+  offerInput: { flex: 1, borderWidth: 1, borderColor: colors.border, borderRadius: Radius.md, padding: Spacing.sm, fontSize: FontSize.md, color: colors.textPrimary },
+  offerSendBtn: { backgroundColor: colors.accent, borderRadius: Radius.md, paddingHorizontal: Spacing.md, paddingVertical: Spacing.sm },
   offerSendBtnText: { color: '#fff', fontWeight: '700', fontSize: FontSize.sm },
-  inputRow: { flexDirection: 'row', alignItems: 'flex-end', gap: Spacing.sm, padding: Spacing.sm, backgroundColor: Colors.surface, borderTopWidth: 1, borderTopColor: Colors.border },
+  inputRow: { flexDirection: 'row', alignItems: 'flex-end', gap: Spacing.sm, padding: Spacing.sm, backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border },
   offerBtn: { padding: Spacing.xs },
-  input: { flex: 1, borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.lg, padding: Spacing.sm, fontSize: FontSize.md, color: Colors.textPrimary, maxHeight: 100 },
-  sendBtn: { backgroundColor: Colors.primary, borderRadius: 22, width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
+  input: { flex: 1, borderWidth: 1, borderColor: colors.border, borderRadius: Radius.lg, padding: Spacing.sm, fontSize: FontSize.md, color: colors.textPrimary, maxHeight: 100 },
+  sendBtn: { backgroundColor: colors.primary, borderRadius: 22, width: 44, height: 44, justifyContent: 'center', alignItems: 'center' },
   sendBtnDisabled: { opacity: 0.4 },
 });

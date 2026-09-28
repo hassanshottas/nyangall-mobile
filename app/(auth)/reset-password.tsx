@@ -6,12 +6,15 @@ import {
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useI18n } from '@/context/I18nContext';
-import { Colors, Spacing, FontSize, Radius } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
+import { Spacing, FontSize, Radius, ThemeColors } from '@/constants/theme';
 import { Logo } from '@/components/Logo';
 import api from '@/services/api';
 
 export default function ResetPasswordScreen() {
   const { t } = useI18n();
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
   const router = useRouter();
   const params = useLocalSearchParams<{ email?: string }>();
   const [email, setEmail] = useState(params.email || '');
@@ -62,7 +65,7 @@ export default function ResetPasswordScreen() {
             <TextInput
               style={styles.input}
               placeholder="exemple@gmail.com"
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={colors.textSecondary}
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
@@ -73,7 +76,7 @@ export default function ResetPasswordScreen() {
             <TextInput
               style={styles.input}
               placeholder={t('codePlaceholder')}
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={colors.textSecondary}
               value={code}
               onChangeText={setCode}
               keyboardType="number-pad"
@@ -85,13 +88,13 @@ export default function ResetPasswordScreen() {
               <TextInput
                 style={styles.passwordInput}
                 placeholder="••••••••"
-                placeholderTextColor={Colors.textSecondary}
+                placeholderTextColor={colors.textSecondary}
                 value={newPassword}
                 onChangeText={setNewPassword}
                 secureTextEntry={!showPassword}
               />
               <TouchableOpacity style={styles.eyeBtn} onPress={() => setShowPassword((v) => !v)}>
-                <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={20} color={Colors.textSecondary} />
+                <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={20} color={colors.textSecondary} />
               </TouchableOpacity>
             </View>
 
@@ -116,32 +119,32 @@ export default function ResetPasswordScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: Colors.background },
+const getStyles = (colors: ThemeColors) => StyleSheet.create({
+  flex: { flex: 1, backgroundColor: colors.background },
   scroll: { flexGrow: 1, justifyContent: 'center', padding: Spacing.lg },
   inner: { width: '100%', maxWidth: 480, alignSelf: 'center' },
   header: { alignItems: 'center', marginBottom: Spacing.xl },
   card: {
-    backgroundColor: Colors.surface, borderRadius: Radius.lg, padding: Spacing.lg,
+    backgroundColor: colors.surface, borderRadius: Radius.lg, padding: Spacing.lg,
     shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 12, elevation: 3,
   },
-  title: { fontSize: FontSize.xl, fontWeight: '700', color: Colors.textPrimary, marginBottom: Spacing.sm },
-  desc: { fontSize: FontSize.sm, color: Colors.textSecondary, marginBottom: Spacing.lg, lineHeight: 20 },
-  label: { fontSize: FontSize.sm, fontWeight: '600', color: Colors.textSecondary, marginBottom: Spacing.xs },
+  title: { fontSize: FontSize.xl, fontWeight: '700', color: colors.textPrimary, marginBottom: Spacing.sm },
+  desc: { fontSize: FontSize.sm, color: colors.textSecondary, marginBottom: Spacing.lg, lineHeight: 20 },
+  label: { fontSize: FontSize.sm, fontWeight: '600', color: colors.textSecondary, marginBottom: Spacing.xs },
   input: {
-    borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md, padding: Spacing.md,
-    fontSize: FontSize.md, color: Colors.textPrimary, backgroundColor: Colors.background, marginBottom: Spacing.md,
+    borderWidth: 1, borderColor: colors.border, borderRadius: Radius.md, padding: Spacing.md,
+    fontSize: FontSize.md, color: colors.textPrimary, backgroundColor: colors.background, marginBottom: Spacing.md,
   },
   passwordRow: {
     flexDirection: 'row', alignItems: 'center',
-    borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md,
-    backgroundColor: Colors.background, marginBottom: Spacing.md,
+    borderWidth: 1, borderColor: colors.border, borderRadius: Radius.md,
+    backgroundColor: colors.background, marginBottom: Spacing.md,
   },
-  passwordInput: { flex: 1, padding: Spacing.md, fontSize: FontSize.md, color: Colors.textPrimary },
+  passwordInput: { flex: 1, padding: Spacing.md, fontSize: FontSize.md, color: colors.textPrimary },
   eyeBtn: { paddingHorizontal: Spacing.md },
-  button: { backgroundColor: Colors.primary, borderRadius: Radius.md, padding: Spacing.md, alignItems: 'center', marginTop: Spacing.sm },
+  button: { backgroundColor: colors.primary, borderRadius: Radius.md, padding: Spacing.md, alignItems: 'center', marginTop: Spacing.sm },
   buttonDisabled: { opacity: 0.6 },
   buttonText: { color: '#fff', fontSize: FontSize.md, fontWeight: '700' },
   footer: { alignItems: 'center', marginTop: Spacing.lg },
-  link: { fontSize: FontSize.sm, color: Colors.primary, fontWeight: '600' },
+  link: { fontSize: FontSize.sm, color: colors.primary, fontWeight: '600' },
 });

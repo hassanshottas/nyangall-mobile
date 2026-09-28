@@ -6,7 +6,8 @@ import {
 import { Link } from 'expo-router';
 import { useAuth } from '@/context/AuthContext';
 import { useI18n } from '@/context/I18nContext';
-import { Colors, Spacing, FontSize, Radius } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
+import { Spacing, FontSize, Radius, ThemeColors } from '@/constants/theme';
 import { Logo } from '@/components/Logo';
 
 const CITIES = [
@@ -17,6 +18,8 @@ const CITIES = [
 export default function RegisterScreen() {
   const { register } = useAuth();
   const { t } = useI18n();
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
   const [form, setForm] = useState({ fullName: '', phone: '', email: '', password: '', city: '' });
   const [loading, setLoading] = useState(false);
   const [showCities, setShowCities] = useState(false);
@@ -56,13 +59,13 @@ export default function RegisterScreen() {
           <Text style={styles.title}>{t('register')}</Text>
 
           <Text style={styles.label}>{t('fullNameRequired')}</Text>
-          <TextInput style={styles.input} placeholder="Hassan Njoya" placeholderTextColor={Colors.textSecondary} value={form.fullName} onChangeText={set('fullName')} autoCapitalize="words" />
+          <TextInput style={styles.input} placeholder="Hassan Njoya" placeholderTextColor={colors.textSecondary} value={form.fullName} onChangeText={set('fullName')} autoCapitalize="words" />
 
           <Text style={styles.label}>{t('phoneRequired')}</Text>
-          <TextInput style={styles.input} placeholder="06 00 00 00 00" placeholderTextColor={Colors.textSecondary} value={form.phone} onChangeText={set('phone')} keyboardType="phone-pad" />
+          <TextInput style={styles.input} placeholder="06 00 00 00 00" placeholderTextColor={colors.textSecondary} value={form.phone} onChangeText={set('phone')} keyboardType="phone-pad" />
 
           <Text style={styles.label}>{t('email')}</Text>
-          <TextInput style={styles.input} placeholder="exemple@gmail.com" placeholderTextColor={Colors.textSecondary} value={form.email} onChangeText={set('email')} keyboardType="email-address" autoCapitalize="none" />
+          <TextInput style={styles.input} placeholder="exemple@gmail.com" placeholderTextColor={colors.textSecondary} value={form.email} onChangeText={set('email')} keyboardType="email-address" autoCapitalize="none" />
 
           <Text style={styles.label}>{t('cityRequired')}</Text>
           <TouchableOpacity style={[styles.input, styles.picker]} onPress={() => setShowCities(!showCities)}>
@@ -82,7 +85,7 @@ export default function RegisterScreen() {
           )}
 
           <Text style={styles.label}>{t('passwordRequired')}</Text>
-          <TextInput style={styles.input} placeholder={t('passwordMinChars')} placeholderTextColor={Colors.textSecondary} value={form.password} onChangeText={set('password')} secureTextEntry />
+          <TextInput style={styles.input} placeholder={t('passwordMinChars')} placeholderTextColor={colors.textSecondary} value={form.password} onChangeText={set('password')} secureTextEntry />
 
           <TouchableOpacity style={[styles.button, loading && styles.buttonDisabled]} onPress={handleRegister} disabled={loading}>
             <Text style={styles.buttonText}>{loading ? t('creating') : t('createAccount')}</Text>
@@ -101,29 +104,29 @@ export default function RegisterScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: Colors.background },
+const getStyles = (colors: ThemeColors) => StyleSheet.create({
+  flex: { flex: 1, backgroundColor: colors.background },
   container: { flexGrow: 1, justifyContent: 'center', padding: Spacing.lg },
   inner: { width: '100%', maxWidth: 480, alignSelf: 'center' },
   header: { alignItems: 'center', marginBottom: Spacing.xl },
-  logo: { fontSize: 36, fontWeight: '800', color: Colors.primary, letterSpacing: -1 },
-  tagline: { fontSize: FontSize.sm, color: Colors.textSecondary, marginTop: Spacing.xs },
-  card: { backgroundColor: Colors.surface, borderRadius: Radius.lg, padding: Spacing.lg, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 12, elevation: 3 },
-  title: { fontSize: FontSize.xl, fontWeight: '700', color: Colors.textPrimary, marginBottom: Spacing.lg },
-  label: { fontSize: FontSize.sm, fontWeight: '600', color: Colors.textSecondary, marginBottom: Spacing.xs },
-  input: { borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md, padding: Spacing.md, fontSize: FontSize.md, color: Colors.textPrimary, backgroundColor: Colors.background, marginBottom: Spacing.md },
+  logo: { fontSize: 36, fontWeight: '800', color: colors.primary, letterSpacing: -1 },
+  tagline: { fontSize: FontSize.sm, color: colors.textSecondary, marginTop: Spacing.xs },
+  card: { backgroundColor: colors.surface, borderRadius: Radius.lg, padding: Spacing.lg, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 12, elevation: 3 },
+  title: { fontSize: FontSize.xl, fontWeight: '700', color: colors.textPrimary, marginBottom: Spacing.lg },
+  label: { fontSize: FontSize.sm, fontWeight: '600', color: colors.textSecondary, marginBottom: Spacing.xs },
+  input: { borderWidth: 1, borderColor: colors.border, borderRadius: Radius.md, padding: Spacing.md, fontSize: FontSize.md, color: colors.textPrimary, backgroundColor: colors.background, marginBottom: Spacing.md },
   picker: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  pickerText: { fontSize: FontSize.md, color: Colors.textPrimary },
-  pickerPlaceholder: { fontSize: FontSize.md, color: Colors.textSecondary },
-  chevron: { fontSize: 12, color: Colors.textSecondary },
-  dropdown: { backgroundColor: Colors.surface, borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md, marginTop: -Spacing.md, marginBottom: Spacing.md, maxHeight: 200, overflow: 'scroll' },
-  dropdownItem: { padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: Colors.border },
-  dropdownText: { fontSize: FontSize.md, color: Colors.textPrimary },
-  dropdownTextActive: { color: Colors.primary, fontWeight: '700' },
-  button: { backgroundColor: Colors.primary, borderRadius: Radius.md, padding: Spacing.md, alignItems: 'center', marginTop: Spacing.sm },
+  pickerText: { fontSize: FontSize.md, color: colors.textPrimary },
+  pickerPlaceholder: { fontSize: FontSize.md, color: colors.textSecondary },
+  chevron: { fontSize: 12, color: colors.textSecondary },
+  dropdown: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: Radius.md, marginTop: -Spacing.md, marginBottom: Spacing.md, maxHeight: 200, overflow: 'scroll' },
+  dropdownItem: { padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: colors.border },
+  dropdownText: { fontSize: FontSize.md, color: colors.textPrimary },
+  dropdownTextActive: { color: colors.primary, fontWeight: '700' },
+  button: { backgroundColor: colors.primary, borderRadius: Radius.md, padding: Spacing.md, alignItems: 'center', marginTop: Spacing.sm },
   buttonDisabled: { opacity: 0.6 },
   buttonText: { color: '#fff', fontSize: FontSize.md, fontWeight: '700' },
   footer: { flexDirection: 'row', justifyContent: 'center', marginTop: Spacing.lg },
-  footerText: { fontSize: FontSize.sm, color: Colors.textSecondary },
-  link: { fontSize: FontSize.sm, color: Colors.primary, fontWeight: '600' },
+  footerText: { fontSize: FontSize.sm, color: colors.textSecondary },
+  link: { fontSize: FontSize.sm, color: colors.primary, fontWeight: '600' },
 });

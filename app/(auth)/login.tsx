@@ -7,12 +7,15 @@ import { Link, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '@/context/AuthContext';
 import { useI18n } from '@/context/I18nContext';
-import { Colors, Spacing, FontSize, Radius } from '@/constants/theme';
+import { useTheme } from '@/context/ThemeContext';
+import { Spacing, FontSize, Radius, ThemeColors } from '@/constants/theme';
 import { Logo } from '@/components/Logo';
 
 export default function LoginScreen() {
   const { login } = useAuth();
   const { t } = useI18n();
+  const { colors } = useTheme();
+  const styles = getStyles(colors);
   const router = useRouter();
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -49,7 +52,7 @@ export default function LoginScreen() {
             <TextInput
               style={styles.input}
               placeholder="06 00 00 00 00"
-              placeholderTextColor={Colors.textSecondary}
+              placeholderTextColor={colors.textSecondary}
               value={phone}
               onChangeText={setPhone}
               keyboardType="phone-pad"
@@ -61,13 +64,13 @@ export default function LoginScreen() {
               <TextInput
                 style={styles.passwordInput}
                 placeholder="••••••••"
-                placeholderTextColor={Colors.textSecondary}
+                placeholderTextColor={colors.textSecondary}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPassword}
               />
               <TouchableOpacity style={styles.eyeBtn} onPress={() => setShowPassword((v) => !v)}>
-                <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={20} color={Colors.textSecondary} />
+                <Ionicons name={showPassword ? 'eye-off-outline' : 'eye-outline'} size={20} color={colors.textSecondary} />
               </TouchableOpacity>
             </View>
 
@@ -112,38 +115,38 @@ export default function LoginScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: Colors.background },
+const getStyles = (colors: ThemeColors) => StyleSheet.create({
+  flex: { flex: 1, backgroundColor: colors.background },
   scroll: { flexGrow: 1, justifyContent: 'center', padding: Spacing.lg },
   inner: { width: '100%', maxWidth: 480, alignSelf: 'center' },
   header: { alignItems: 'center', marginBottom: Spacing.xl },
-  logo: { fontSize: 36, fontWeight: '800', color: Colors.primary, letterSpacing: -1 },
-  tagline: { fontSize: FontSize.sm, color: Colors.textSecondary, marginTop: Spacing.xs },
+  logo: { fontSize: 36, fontWeight: '800', color: colors.primary, letterSpacing: -1 },
+  tagline: { fontSize: FontSize.sm, color: colors.textSecondary, marginTop: Spacing.xs },
   card: {
-    backgroundColor: Colors.surface, borderRadius: Radius.lg, padding: Spacing.lg,
+    backgroundColor: colors.surface, borderRadius: Radius.lg, padding: Spacing.lg,
     shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.06, shadowRadius: 12, elevation: 3,
   },
-  title: { fontSize: FontSize.xl, fontWeight: '700', color: Colors.textPrimary, marginBottom: Spacing.lg },
-  label: { fontSize: FontSize.sm, fontWeight: '600', color: Colors.textSecondary, marginBottom: Spacing.xs },
+  title: { fontSize: FontSize.xl, fontWeight: '700', color: colors.textPrimary, marginBottom: Spacing.lg },
+  label: { fontSize: FontSize.sm, fontWeight: '600', color: colors.textSecondary, marginBottom: Spacing.xs },
   input: {
-    borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md, padding: Spacing.md,
-    fontSize: FontSize.md, color: Colors.textPrimary, backgroundColor: Colors.background, marginBottom: Spacing.md,
+    borderWidth: 1, borderColor: colors.border, borderRadius: Radius.md, padding: Spacing.md,
+    fontSize: FontSize.md, color: colors.textPrimary, backgroundColor: colors.background, marginBottom: Spacing.md,
   },
   passwordRow: {
     flexDirection: 'row', alignItems: 'center',
-    borderWidth: 1, borderColor: Colors.border, borderRadius: Radius.md,
-    backgroundColor: Colors.background, marginBottom: Spacing.md,
+    borderWidth: 1, borderColor: colors.border, borderRadius: Radius.md,
+    backgroundColor: colors.background, marginBottom: Spacing.md,
   },
-  passwordInput: { flex: 1, padding: Spacing.md, fontSize: FontSize.md, color: Colors.textPrimary },
+  passwordInput: { flex: 1, padding: Spacing.md, fontSize: FontSize.md, color: colors.textPrimary },
   eyeBtn: { paddingHorizontal: Spacing.md },
   forgotPasswordLink: { alignItems: 'flex-end', marginBottom: Spacing.sm },
-  button: { backgroundColor: Colors.primary, borderRadius: Radius.md, padding: Spacing.md, alignItems: 'center', marginTop: Spacing.sm },
+  button: { backgroundColor: colors.primary, borderRadius: Radius.md, padding: Spacing.md, alignItems: 'center', marginTop: Spacing.sm },
   buttonDisabled: { opacity: 0.6 },
   buttonText: { color: '#fff', fontSize: FontSize.md, fontWeight: '700' },
   footer: { flexDirection: 'row', justifyContent: 'center', marginTop: Spacing.lg },
-  footerText: { fontSize: FontSize.sm, color: Colors.textSecondary },
-  link: { fontSize: FontSize.sm, color: Colors.primary, fontWeight: '600' },
+  footerText: { fontSize: FontSize.sm, color: colors.textSecondary },
+  link: { fontSize: FontSize.sm, color: colors.primary, fontWeight: '600' },
   legalLinks: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: Spacing.xs, marginTop: Spacing.lg },
-  legalLinkText: { fontSize: FontSize.xs, color: Colors.textSecondary, textDecorationLine: 'underline' },
-  legalDot: { fontSize: FontSize.xs, color: Colors.textSecondary },
+  legalLinkText: { fontSize: FontSize.xs, color: colors.textSecondary, textDecorationLine: 'underline' },
+  legalDot: { fontSize: FontSize.xs, color: colors.textSecondary },
 });
