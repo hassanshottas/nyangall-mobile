@@ -6,6 +6,7 @@ import {
 import { useLocalSearchParams, Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/context/AuthContext';
 import { useI18n } from '@/context/I18nContext';
 import api from '@/services/api';
@@ -27,6 +28,7 @@ type Conversation = {
 export default function ConversationScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { user } = useAuth();
+  const insets = useSafeAreaInsets();
   const flatListRef = useRef<FlatList>(null);
   const [conversation, setConversation] = useState<Conversation | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -309,7 +311,7 @@ export default function ConversationScreen() {
               </View>
             )}
 
-            <View style={styles.inputRow}>
+            <View style={[styles.inputRow, { paddingBottom: Math.max(insets.bottom, Spacing.sm) }]}>
               <TouchableOpacity style={styles.offerBtn} onPress={() => setShowOfferInput(!showOfferInput)}>
                 <Ionicons name="cash-outline" size={22} color={Colors.accent} />
               </TouchableOpacity>

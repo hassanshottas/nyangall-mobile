@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { I18nProvider } from '@/context/I18nContext';
 import { ThemeProvider, useTheme } from '@/context/ThemeContext';
 import { ActivityIndicator, View } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function RootLayoutNav() {
@@ -84,13 +85,15 @@ function StatusBarWithTheme() {
 
 export default function RootLayout() {
   return (
-    <ThemeProvider>
-      <I18nProvider>
-        <AuthProvider>
-          <StatusBarWithTheme />
-          <RootLayoutNav />
-        </AuthProvider>
-      </I18nProvider>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider>
+        <I18nProvider>
+          <AuthProvider>
+            <StatusBarWithTheme />
+            <RootLayoutNav />
+          </AuthProvider>
+        </I18nProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
