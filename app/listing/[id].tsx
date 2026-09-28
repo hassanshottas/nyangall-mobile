@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useI18n } from '@/context/I18nContext';
@@ -39,6 +40,7 @@ export default function ListingScreen() {
   const router = useRouter();
   const { user } = useAuth();
   const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
   const { t, lang } = useI18n();
   const catName = (cat: { nameFr: string; nameEn: string }) => (lang === 'en' ? cat.nameEn : cat.nameFr);
   const styles = getStyles(colors);
@@ -328,7 +330,7 @@ export default function ListingScreen() {
 
         {/* Bouton contacter */}
         {!isOwner && !isSold && (
-          <View style={styles.footer}>
+          <View style={[styles.footer, { paddingBottom: Math.max(insets.bottom, Spacing.md) }]}>
             <TouchableOpacity style={styles.contactBtn} onPress={handleContact} disabled={contactLoading}>
               {contactLoading
                 ? <ActivityIndicator color="#fff" />
