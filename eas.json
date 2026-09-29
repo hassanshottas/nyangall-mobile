@@ -10,13 +10,13 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://192.168.1.150:4000/api"
+        "EXPO_PUBLIC_API_URL": "https://nyangall-backend.onrender.com/api"
       }
     },
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://TODO-remplacer-par-l-url-du-backend-de-production.example.com/api"
+        "EXPO_PUBLIC_API_URL": "https://nyangall-backend.onrender.com/api"
       }
     }
   },
