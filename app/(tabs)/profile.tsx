@@ -261,6 +261,14 @@ export default function ProfileScreen() {
           )}
         </View>
 
+        {/* Administration */}
+        {user?.isAdmin && (
+          <TouchableOpacity style={styles.adminBtn} onPress={() => router.push('/admin/reports' as any)}>
+            <Ionicons name="shield-checkmark-outline" size={20} color={colors.primary} />
+            <Text style={styles.adminText}>{t('adminReports')}</Text>
+          </TouchableOpacity>
+        )}
+
         {/* Déconnexion */}
         <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
           <Ionicons name="log-out-outline" size={20} color={colors.error} />
@@ -368,6 +376,8 @@ const getStyles = (colors: ThemeColors) => StyleSheet.create({
   listingPrice: { fontSize: FontSize.md, fontWeight: '800', color: colors.primary, marginTop: 2 },
   statusBadge: { marginRight: Spacing.sm, paddingHorizontal: Spacing.sm, paddingVertical: 4, borderRadius: Radius.full },
   statusText: { fontSize: FontSize.xs, fontWeight: '700' },
+  adminBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: Spacing.sm, marginHorizontal: Spacing.md, marginTop: Spacing.md, padding: Spacing.md, borderRadius: Radius.md, borderWidth: 1.5, borderColor: colors.primary },
+  adminText: { color: colors.primary, fontWeight: '700', fontSize: FontSize.md },
   logoutBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: Spacing.sm, margin: Spacing.md, padding: Spacing.md, borderRadius: Radius.md, borderWidth: 1.5, borderColor: colors.error },
   logoutText: { color: colors.error, fontWeight: '700', fontSize: FontSize.md },
   // Modal

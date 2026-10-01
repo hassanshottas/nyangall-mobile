@@ -13,6 +13,7 @@ type User = {
   neighborhood?: string;
   welcomeMessage?: string;
   isVerified?: boolean;
+  isAdmin?: boolean;
   ratingAvg: number;
   ratingCount: number;
 };

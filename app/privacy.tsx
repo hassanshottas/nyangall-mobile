@@ -1,6 +1,6 @@
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import { Stack } from 'expo-router';
-import { Head } from 'expo-router/head';
+import Head from 'expo-router/head';
 import { useTheme } from '@/context/ThemeContext';
 import { Spacing, FontSize, ThemeColors } from '@/constants/theme';
 

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Link, Stack } from 'expo-router';
-import { Head } from 'expo-router/head';
+import Head from 'expo-router/head';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '@/context/ThemeContext';
 import { Spacing, FontSize, Radius, ThemeColors } from '@/constants/theme';

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, ActivityIndicator, Image } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
-import { Head } from 'expo-router/head';
+import Head from 'expo-router/head';
 import { Ionicons } from '@expo/vector-icons';
 import api from '@/services/api';
 import { Spacing, FontSize, Radius, ThemeColors } from '@/constants/theme';
