@@ -116,7 +116,7 @@ export default function LoginScreen() {
 }
 
 const getStyles = (colors: ThemeColors) => StyleSheet.create({
-  flex: { flex: 1, backgroundColor: colors.background },
+  flex: { flex: 1, backgroundColor: colors.surfaceAlt },
   scroll: { flexGrow: 1, justifyContent: 'center', padding: Spacing.lg },
   inner: { width: '100%', maxWidth: 480, alignSelf: 'center' },
   header: { alignItems: 'center', marginBottom: Spacing.xl },

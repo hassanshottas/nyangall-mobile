@@ -59,7 +59,7 @@ export default function RegisterScreen() {
           <Text style={styles.title}>{t('register')}</Text>
 
           <Text style={styles.label}>{t('fullNameRequired')}</Text>
-          <TextInput style={styles.input} placeholder="Hassan Njoya" placeholderTextColor={colors.textSecondary} value={form.fullName} onChangeText={set('fullName')} autoCapitalize="words" />
+          <TextInput style={styles.input} placeholder={t('fullNamePlaceholder')} placeholderTextColor={colors.textSecondary} value={form.fullName} onChangeText={set('fullName')} autoCapitalize="words" />
 
           <Text style={styles.label}>{t('phoneRequired')}</Text>
           <TextInput style={styles.input} placeholder="06 00 00 00 00" placeholderTextColor={colors.textSecondary} value={form.phone} onChangeText={set('phone')} keyboardType="phone-pad" />
@@ -105,7 +105,7 @@ export default function RegisterScreen() {
 }
 
 const getStyles = (colors: ThemeColors) => StyleSheet.create({
-  flex: { flex: 1, backgroundColor: colors.background },
+  flex: { flex: 1, backgroundColor: colors.surfaceAlt },
   container: { flexGrow: 1, justifyContent: 'center', padding: Spacing.lg },
   inner: { width: '100%', maxWidth: 480, alignSelf: 'center' },
   header: { alignItems: 'center', marginBottom: Spacing.xl },
