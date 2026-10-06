@@ -33,7 +33,8 @@ function resolveApiUrl() {
 
 export const API_URL = resolveApiUrl();
 
-const api = axios.create({ baseURL: API_URL });
+// 60 s : le serveur gratuit peut mettre ~40 s à se réveiller après une période d'inactivité.
+const api = axios.create({ baseURL: API_URL, timeout: 60000 });
 
 // Injecte automatiquement le token JWT dans chaque requête
 api.interceptors.request.use(async (config) => {

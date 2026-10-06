@@ -48,11 +48,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const storedToken = await AsyncStorage.getItem('token');
       if (storedToken) {
         setToken(storedToken);
-        try {
-          const { data } = await api.get('/auth/me');
-          setUser(data.user);
-        } catch {
-          await AsyncStorage.removeItem('token');
+        for (let attempt = 0; attempt < 3; attempt++) {
+          try {
+            const { data } = await api.get('/auth/me');
+            setUser(data.user);
+            break;
+          } catch (err: any) {
+            const status = err?.response?.status;
+            if (status === 401 || status === 403) {
+              await AsyncStorage.removeItem('token');
+              setToken(null);
+              break;
+            }
+            // Réseau coupé ou serveur en réveil : on garde le token et on réessaie.
+            if (attempt < 2) await new Promise((r) => setTimeout(r, 2000));
+          }
         }
       }
       setIsLoading(false);
