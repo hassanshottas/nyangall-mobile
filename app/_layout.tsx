@@ -53,28 +53,49 @@ function RootLayoutNav() {
     );
   }
 
+  // Tant qu'une redirection est nécessaire, on masque l'écran affiché par défaut
+  // (sinon l'accueil apparaît une fraction de seconde avant la page de connexion).
+  const inAuth = segments[0] === '(auth)';
+  const inOnboarding = segments[0] === 'onboarding';
+  const redirecting =
+    (!onboardingDone && !inOnboarding) ||
+    (onboardingDone && !user && !inAuth) ||
+    (onboardingDone && !!user && inAuth);
+
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="onboarding" />
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen
-        name="listing/[id]"
-        options={{
-          headerShown: true, title: 'Annonce', headerBackTitle: 'Retour',
-          headerTintColor: colors.primary, headerStyle: { backgroundColor: colors.surface },
-          headerTitleStyle: { color: colors.textPrimary },
-        }}
-      />
-      <Stack.Screen
-        name="conversation/[id]"
-        options={{
-          headerShown: true, headerBackTitle: 'Retour',
-          headerTintColor: colors.primary, headerStyle: { backgroundColor: colors.surface },
-          headerTitleStyle: { color: colors.textPrimary },
-        }}
-      />
-    </Stack>
+    <View style={{ flex: 1 }}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="onboarding" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen
+          name="listing/[id]"
+          options={{
+            headerShown: true, title: 'Annonce', headerBackTitle: 'Retour',
+            headerTintColor: colors.primary, headerStyle: { backgroundColor: colors.surface },
+            headerTitleStyle: { color: colors.textPrimary },
+          }}
+        />
+        <Stack.Screen
+          name="conversation/[id]"
+          options={{
+            headerShown: true, headerBackTitle: 'Retour',
+            headerTintColor: colors.primary, headerStyle: { backgroundColor: colors.surface },
+            headerTitleStyle: { color: colors.textPrimary },
+          }}
+        />
+      </Stack>
+      {redirecting && (
+        <View
+          style={{
+            position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+            justifyContent: 'center', alignItems: 'center', backgroundColor: colors.background,
+          }}
+        >
+          <ActivityIndicator size="large" color={colors.primary} />
+        </View>
+      )}
+    </View>
   );
 }
 
