@@ -23,7 +23,7 @@ const SECTIONS: { title: string; body: string }[] = [
   },
   {
     title: '5. Conservation des données',
-    body: "Vos données sont conservées tant que votre compte est actif. Vous pouvez demander la suppression de votre compte et de vos données à tout moment en nous contactant.",
+    body: "Vos données sont conservées tant que votre compte est actif. Vous pouvez supprimer votre compte et vos données à tout moment depuis l'application (Profil > Supprimer mon compte) ou sur la page https://nyangall-web.onrender.com/delete-account. La suppression est immédiate et définitive.",
   },
   {
     title: '6. Vos droits',

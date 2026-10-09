@@ -275,6 +275,10 @@ export default function ProfileScreen() {
           <Text style={styles.logoutText}>{t('logout')}</Text>
         </TouchableOpacity>
 
+        <TouchableOpacity style={styles.deleteAccountBtn} onPress={() => router.push('/delete-account' as any)}>
+          <Text style={styles.deleteAccountText}>{t('deleteAccount')}</Text>
+        </TouchableOpacity>
+
         <View style={{ height: Spacing.xl }} />
       </View>
 
@@ -380,6 +384,8 @@ const getStyles = (colors: ThemeColors) => StyleSheet.create({
   adminText: { color: colors.primary, fontWeight: '700', fontSize: FontSize.md },
   logoutBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: Spacing.sm, margin: Spacing.md, padding: Spacing.md, borderRadius: Radius.md, borderWidth: 1.5, borderColor: colors.error },
   logoutText: { color: colors.error, fontWeight: '700', fontSize: FontSize.md },
+  deleteAccountBtn: { alignItems: 'center', padding: Spacing.sm },
+  deleteAccountText: { color: colors.textSecondary, fontSize: FontSize.sm, textDecorationLine: 'underline' },
   // Modal
   modal: { flex: 1, backgroundColor: colors.background },
   modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: Spacing.lg, backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.border },

@@ -8,6 +8,10 @@ import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Pages lisibles sans compte ni onboarding : leurs URL web sont déclarées à Google Play
+// (confidentialité, suppression de compte) et doivent s'ouvrir directement.
+const PUBLIC_PAGES: string[] = ['privacy', 'terms', 'faq', 'delete-account'];
+
 function RootLayoutNav() {
   const { user, isLoading } = useAuth();
   const { colors } = useTheme();
@@ -34,6 +38,7 @@ function RootLayoutNav() {
 
       const inAuth = segments[0] === '(auth)';
       const inOnboarding = segments[0] === 'onboarding';
+      if (PUBLIC_PAGES.includes(segments[0])) return;
 
       if (!done && !inOnboarding) {
         router.replace('/onboarding');
@@ -57,10 +62,10 @@ function RootLayoutNav() {
   // (sinon l'accueil apparaît une fraction de seconde avant la page de connexion).
   const inAuth = segments[0] === '(auth)';
   const inOnboarding = segments[0] === 'onboarding';
-  const redirecting =
+  const redirecting = !PUBLIC_PAGES.includes(segments[0]) && (
     (!onboardingDone && !inOnboarding) ||
     (onboardingDone && !user && !inAuth) ||
-    (onboardingDone && !!user && inAuth);
+    (onboardingDone && !!user && inAuth));
 
   return (
     <View style={{ flex: 1 }}>
