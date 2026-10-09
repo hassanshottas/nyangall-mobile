@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import { Link, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import Constants from 'expo-constants';
 import { useAuth } from '@/context/AuthContext';
 import { useI18n } from '@/context/I18nContext';
 import { useTheme } from '@/context/ThemeContext';
@@ -109,6 +110,10 @@ export default function LoginScreen() {
               <Text style={styles.legalLinkText}>{t('termsTitle')}</Text>
             </TouchableOpacity>
           </View>
+
+          <Text style={styles.versionText}>
+            NyangAll v{Constants.expoConfig?.version ?? '1.0.0'}  ·  by Liberty.Grp
+          </Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -149,4 +154,5 @@ const getStyles = (colors: ThemeColors) => StyleSheet.create({
   legalLinks: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: Spacing.xs, marginTop: Spacing.lg },
   legalLinkText: { fontSize: FontSize.xs, color: colors.textSecondary, textDecorationLine: 'underline' },
   legalDot: { fontSize: FontSize.xs, color: colors.textSecondary },
+  versionText: { textAlign: 'center', fontSize: FontSize.xs, color: colors.textSecondary, marginTop: Spacing.md, opacity: 0.8 },
 });
