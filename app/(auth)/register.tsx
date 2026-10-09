@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView, Platform, ScrollView, Alert,
 } from 'react-native';
 import { Link } from 'expo-router';
+import Constants from 'expo-constants';
 import { useAuth } from '@/context/AuthContext';
 import { useI18n } from '@/context/I18nContext';
 import { useTheme } from '@/context/ThemeContext';
@@ -76,11 +77,14 @@ export default function RegisterScreen() {
           </TouchableOpacity>
           {showCities && (
             <View style={styles.dropdown}>
-              {CITIES.map((city) => (
-                <TouchableOpacity key={city} style={styles.dropdownItem} onPress={() => { set('city')(city); setShowCities(false); }}>
-                  <Text style={[styles.dropdownText, form.city === city && styles.dropdownTextActive]}>{city}</Text>
-                </TouchableOpacity>
-              ))}
+              {/* ScrollView imbriqué : sur Android, une View à hauteur limitée ne défile pas */}
+              <ScrollView style={styles.dropdownScroll} nestedScrollEnabled keyboardShouldPersistTaps="handled">
+                {CITIES.map((city) => (
+                  <TouchableOpacity key={city} style={styles.dropdownItem} onPress={() => { set('city')(city); setShowCities(false); }}>
+                    <Text style={[styles.dropdownText, form.city === city && styles.dropdownTextActive]}>{city}</Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
             </View>
           )}
 
@@ -98,6 +102,10 @@ export default function RegisterScreen() {
             </Link>
           </View>
         </View>
+
+        <Text style={styles.versionText}>
+          NyangAll v{Constants.expoConfig?.version ?? '1.0.0'}  ·  by Liberty.Grp
+        </Text>
         </View>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -119,7 +127,8 @@ const getStyles = (colors: ThemeColors) => StyleSheet.create({
   pickerText: { fontSize: FontSize.md, color: colors.textPrimary },
   pickerPlaceholder: { fontSize: FontSize.md, color: colors.textSecondary },
   chevron: { fontSize: 12, color: colors.textSecondary },
-  dropdown: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: Radius.md, marginTop: -Spacing.md, marginBottom: Spacing.md, maxHeight: 200, overflow: 'scroll' },
+  dropdown: { backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border, borderRadius: Radius.md, marginTop: -Spacing.md, marginBottom: Spacing.md, overflow: 'hidden' },
+  dropdownScroll: { maxHeight: 220 },
   dropdownItem: { padding: Spacing.md, borderBottomWidth: 1, borderBottomColor: colors.border },
   dropdownText: { fontSize: FontSize.md, color: colors.textPrimary },
   dropdownTextActive: { color: colors.primary, fontWeight: '700' },
@@ -129,4 +138,5 @@ const getStyles = (colors: ThemeColors) => StyleSheet.create({
   footer: { flexDirection: 'row', justifyContent: 'center', marginTop: Spacing.lg },
   footerText: { fontSize: FontSize.sm, color: colors.textSecondary },
   link: { fontSize: FontSize.sm, color: colors.primary, fontWeight: '600' },
+  versionText: { textAlign: 'center', fontSize: FontSize.xs, color: colors.textSecondary, marginTop: Spacing.lg, opacity: 0.8 },
 });

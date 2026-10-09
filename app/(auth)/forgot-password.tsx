@@ -30,8 +30,8 @@ export default function ForgotPasswordScreen() {
     }
     setLoading(true);
     try {
-      await api.post('/auth/forgot-password', { email: email.trim() });
-      notify(t('success'), t('codeSentMsg'));
+      const { data } = await api.post('/auth/forgot-password', { identifier: email.trim() });
+      notify(t('success'), data?.destination ? `${t('codeSentTo')} ${data.destination}` : t('codeSentMsg'));
       router.push({ pathname: '/(auth)/reset-password', params: { email: email.trim() } });
     } catch (err: any) {
       notify(t('error'), err?.response?.data?.error || t('forgotPasswordEmailRequired'));
@@ -52,15 +52,15 @@ export default function ForgotPasswordScreen() {
             <Text style={styles.title}>{t('forgotPasswordTitle')}</Text>
             <Text style={styles.desc}>{t('forgotPasswordDesc')}</Text>
 
-            <Text style={styles.label}>{t('email')}</Text>
+            <Text style={styles.label}>{t('phoneOrEmail')}</Text>
             <TextInput
               style={styles.input}
-              placeholder="exemple@gmail.com"
+              placeholder="06 00 00 00 00 / exemple@gmail.com"
               placeholderTextColor={colors.textSecondary}
               value={email}
               onChangeText={setEmail}
-              keyboardType="email-address"
               autoCapitalize="none"
+              autoCorrect={false}
             />
 
             <TouchableOpacity

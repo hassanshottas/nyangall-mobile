@@ -39,7 +39,7 @@ export default function ResetPasswordScreen() {
     }
     setLoading(true);
     try {
-      await api.post('/auth/reset-password', { email: email.trim(), code: code.trim(), newPassword });
+      await api.post('/auth/reset-password', { identifier: email.trim(), code: code.trim(), newPassword });
       notify(t('success'), t('resetPasswordSuccess'));
       router.replace('/(auth)/login');
     } catch (err: any) {
@@ -61,15 +61,15 @@ export default function ResetPasswordScreen() {
             <Text style={styles.title}>{t('resetPasswordTitle')}</Text>
             <Text style={styles.desc}>{t('resetPasswordDesc')}</Text>
 
-            <Text style={styles.label}>{t('email')}</Text>
+            <Text style={styles.label}>{t('phoneOrEmail')}</Text>
             <TextInput
               style={styles.input}
-              placeholder="exemple@gmail.com"
+              placeholder="06 00 00 00 00 / exemple@gmail.com"
               placeholderTextColor={colors.textSecondary}
               value={email}
               onChangeText={setEmail}
-              keyboardType="email-address"
               autoCapitalize="none"
+              autoCorrect={false}
             />
 
             <Text style={styles.label}>{t('codeLabel')}</Text>
