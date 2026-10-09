@@ -6,6 +6,7 @@ import {
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
 import { useAuth } from '@/context/AuthContext';
 import api from '@/services/api';
 import { Spacing, FontSize, Radius, ThemeColors } from '@/constants/theme';
@@ -279,6 +280,10 @@ export default function ProfileScreen() {
           <Text style={styles.deleteAccountText}>{t('deleteAccount')}</Text>
         </TouchableOpacity>
 
+        <Text style={styles.versionText}>
+          NyangAll v{Constants.expoConfig?.version ?? '1.0.0'}  ·  by Liberty.Grp
+        </Text>
+
         <View style={{ height: Spacing.xl }} />
       </View>
 
@@ -386,6 +391,7 @@ const getStyles = (colors: ThemeColors) => StyleSheet.create({
   logoutText: { color: colors.error, fontWeight: '700', fontSize: FontSize.md },
   deleteAccountBtn: { alignItems: 'center', padding: Spacing.sm },
   deleteAccountText: { color: colors.textSecondary, fontSize: FontSize.sm, textDecorationLine: 'underline' },
+  versionText: { textAlign: 'center', color: colors.textSecondary, fontSize: FontSize.xs, marginTop: Spacing.md, opacity: 0.8 },
   // Modal
   modal: { flex: 1, backgroundColor: colors.background },
   modalHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', padding: Spacing.lg, backgroundColor: colors.surface, borderBottomWidth: 1, borderBottomColor: colors.border },
